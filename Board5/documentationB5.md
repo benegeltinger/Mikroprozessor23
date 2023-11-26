@@ -6,15 +6,20 @@ von: Jan Skarbecki, Benedikt Geltinger
 Der erste Multiplexer (MUX3) entscheidet ob die zu schreibende Adresse vom Adressbus kommt oder ob sie manuell codiert wurde.
 Auf unserem Digiboard ist der oberste Eingang (/ProgrammingEnabled) das Steuersignal für den Multiplexer. 
 Das manuelle Codieren erfolgt über die unteren vier Eingänge. Dabei ist der unterte Eingang das 1. Bit.
-
+Der Multiplexer wurde mithilfe von Kommbigattern aufgebaut.
 Der Output, der die zu schreibende Adresse aus dem Multiplexer enthält, geht sowohl an den Daten-RAM als auch an den Instruktions-RAM.
+
+
 
 ## Multiplexer für die zu schreibenden Daten:
 
 Der zweite Multiplexer (MUX4) entscheidet ob die zu schreibenden Daten aus dem Akkumulator oder aus dem linken Hexadezimal-Codierschalter kommen.
-Für den zweiten Multiplexer dient ebenfalls der oberste Eingangn (/ProgrammingEnabled) als das Steuersignal.
+Für den zweiten Multiplexer dient ebenfalls der oberste Eingang (/ProgrammingEnabled) als das Steuersignal.
+
 
 Der Output aus dem Multiplexer (MUX4) geht in den ersten 3-State-Bus Driver. 
+
+![](MUX4.png)
 
 ## Schreiben in den Datenspeicher und den Instruktionsspeicher
 Um in die beiden Speicherelemente speichern zu können kommt zum einen aus dem Steuerwerk ein Write-Signal sowie ein manuelles Programming-Write-Signal aus dem zweiten Eingang des Digiboards 5.
@@ -45,5 +50,9 @@ In den negierten CS Ausgang fließt ein konstantes Low-Signal.
 In den Instruktionsspeicher fließen über die D3 bis D0 Eingänge ebenfalls die Ausgänge aus dem zweiten 3-State-Driver.
 Wie bei dem Daten-RAM können über die Ausgänge D1 bis D3 die Instruktionen in den jeweiligen Adressen gespeichert sind, abgelesen werden.
 
+## Übersicht des 3-State-Driver mit dem RAM-Baustein 
+![](UebersichtRAM.png)
 
 
+## Gesamtaufbau des Digibord 5:
+![](Bord5.png)
