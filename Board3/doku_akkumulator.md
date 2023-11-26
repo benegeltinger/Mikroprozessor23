@@ -4,10 +4,14 @@ von: **Julian Weichselbaumer und Lorenz Scheler**
 
 ## Akkumulator
 
-### Multiplexer
+![](Akkumulator.png)
+
+Der Akkumulator besteht grundsätzlich aus unseren benötigten Steuerleitungen, 4 Datenleitungen aus dem Datenregister, einem 2-1 4 Bit Multiplexer, einem Schieberegister, einer ALU und einem Statusregister. Die Steuerleitungen vom Steuerwerk bestimmen, was der Akkumulator ausführt und wann er dies macht. Der 2-1 4 Bit Mulitplexer bestimmt über den Eingang des Akkumulators, hierbei werden entweder die 4 Datenleitungen des Datenregister gewählt oder das Ergebnis/Inhalt des Akkumulators selbst. Das Schieberegister ist unser Speicher des Akkumulators, hier werden bei einem Load Befehl die akutell anliegenden Daten hineingeladen und anschließend mit einem Datenbus weitergegeben. Unsere ALU ist mehr oder weniger der Hauptbestandteil unseres Boards, weil sie die Berechnungen ausführt die wir haben wollen. Sie addiert/subtrahiert den Wert unseres Speichers mit dem Wert, welcher momentan vom Datenregister kommt. Somit können wir Additionen/Subtraktionen mit dem Zweierkomplement realisieren. Damit wir uns noch einen besseren und ausführlicheren Überblick über diverse Zustände/Werte auf dem Board machen können, haben wir auch ein Statusregister implementiert. Dieses Statusregister beinhaltet ein Carry Bit, welches uns anzeigt ob es einen Übertrag gibt. Ein negativ Bit, welches uns sagt ob unser aktueller Wert negativ ist. Und ein Zero Bit, welches uns sagt ob der Inhalt unseres Speichers gerade leer ist oder nicht. Alle drei dieser Werte, werden zum Steuerwerk weiter gegeben.
+
+### 2-1 4 Bit Multiplexer
 ![](MultiplexerWahrheitstabelle.jpeg)
 
-Die Wahrheitstabelle ist die für den Multiplexer der auf dem Board gegeben ist.
+Die Wahrheitstabelle ist die, welche für den Multiplexer der auf dem Board gegeben ist.
 Hierbei gehen wir davon aus, dass A0 immer null ist. Somit ist nur A1 relevant und wir können uns aussuchen ob wir das Signal von Channel null oder eins nehmen. Ist die Steuerleitung also 1, werden die Daten vom Datenregister übernommen. Ist die Steuerleitung 0, dann wird die Ausgabe der ALU genutzt. 
 
 
@@ -22,34 +26,35 @@ Die Ausgänge unseres Schieberegisters werden zu den Eingängen P0-P3 der ALU (s
 
 ## ALU 
 
-Die ALU nutzt die Augänge des Schieberegisters als P0-P3, weiterhin werden die Eingänge Q0-Q3 mit den Ausgängen des Datenregisters verbunden.
-
-
+Die ALU nutzt die Augänge des Schieberegisters (unseres Speichers) als P0-P3, weiterhin werden die Eingänge Q0-Q3 mit den Ausgängen des Datenregisters verbunden. Die ALU rechnet immer mit sofort anliegenden Werten und muss nicht mit einer Clock beschalten werden. 
 
 
 ### Carry Bit
-Das Carry Bit der letzten Operation wird in einem JK FlipFlop gespeichert. Dafür muss der $\overline C \overline O$ der ALU in den Input K des JK Flipflops geleitet werden und die Negation von $\overline C \overline O$ in den J Input
+Das Carry Bit der letzten Operation wird in einem JK FlipFlop gespeichert. Dafür muss der $\overline C \overline O$ der ALU in den Input K des JK Flipflops geleitet werden und die Negation von $\overline C \overline O$ in den J Input. Da diese Variante aber zeitlich versetzt wäre, müssen wir noch ein JK Flipflop zur Verzögerung zwischenschalten. Wir nehmen also den normalen und dem negierten Wert unseres ersten JK Flipflops und stecken sie in ein weiteres JK Flipflop. Da das Carry Bit ein enable Signal benötigt, nehmen wir unser Signal welches mit Clock und Carry verundet wurde und befördern es in beide JK Flipflops.
 
 
 ### Zero Bit
-Alle Eingangsleitungen q0-q3 werden durch ein NOR Gatter geleitet. In einem JK Flipflop werden diese zusammen mit der Clock zum Zero Bit. Dieses ist nur existent, wenn alle Eingangsleitungen 0 sind.
+Alle Leitunge unseres Speichers q0-q3 werden durch ein NOR Gatter geleitet. In einem JK Flipflop werden diese zusammen mit der Clock zum Zero Bit. Der Sinn des Zero Bits ist es, zu signalisieren, wenn der Wert des Akkumulators 0 ist. Es ist also dementsprechend nur gesetzt wenn alle Leitungen des Speichers auch 0 sind.
 
 ### Negativ Bit
 
-Das Negativ Bit ergibt sich aus q3. Dieses wird mit sich selbst, einer Negation von sich und der Clock in einem JK Flipflop zusammen geführt, welcher das Negativ Bit dann speichert. Dieses Negativ Bit ergibt sich nur wenn, bei der Subtraktion eine größere Zahl von einer kleineren abgezogen wird
+Das Negativ Bit ergibt sich aus q3. Dieses wird mit sich selbst, einer Negation von sich und der Clock in einem JK Flipflop zusammen geführt, welcher das Negativ Bit dann speichert. Das Negativ Bit und das Zero Bit sind positiv taktflankengesteuert.
 
 ## Testen
 
 ### Zero Bit Test
 Das Zero Bit ist an, wenn alles null ist. Wenn man das Board anschaltet ist, müsste das Zero Bit also ein sein. Dies ist bei uns der Fall.
-Weiterhin müsste es leuchten, wenn man z.B. 4-4 rechnet.
-
-### load
-Das Load Signal lädt Werte des 
+Weiterhin müsste es leuchten, wenn man eine Subtraktion oder Addition hat die 0 ergibt. z.B. 4-4 rechnet.
 
 
+### Carry Bit Test 
 
-Das Signal haben wir dann in beide Steuerleitungen des Schieberegisters gelegt. Dies benötigen wir, da im Schieberegister bei a0=1 und a1=1 geladen wird. Nun können wir für jeden einzelnen Eingang d0-d3 testen, ob er geladen wird. Dafür brauchen wir die einzelnen d Eingänge, das enable Signal, das load Signal, die Steuerleitungen für den Multiplexer und einen Eingang einer negierten Clock, da der Akkumulator negativ Taktflanken gesteuert ist. Nun testen wir für alle Varianten ab, ob die richtigen Eingänge durchgeladen werden. Hierbei werden load, enable und die Steuerleitungen der Multiplexer angeschaltet und außerdem die jeweilige Kombination der d-Eingänge. Um zu schauen ob es geladen wird, muss nun die Clock betätigt werden. Es muss hierbei darauf geachtet werden, dass die Werte erst durchgeladen werden, wenn die Clock von positiv auf negativ umschaltet. 
+Das Carry Bit ist gesetzt, wenn bei einer Rechnung der Zahlenkreis überschritten wird und man vom negativen in den positiven Bereich springt. Da die ALU aber z.B. bei 7-3 nicht 7-3 rechnet sondern -3+7, wird das Carry Bit in diesem Fall gesetzt.
+Außerdem wird es auch gesetzt, wenn man bei einer Addition den 4 Bit Bereich der positiven Zahlen überschreitet z.B. 7 + 4 = 11
+
+
+### Negativ Bit Test 
+ Das Negativ Bit wird immer gesetzt wenn eine Zahl negativ ist, also mit einem minus in Verbindung steht.
 
 
 ### normale Addition 
@@ -62,12 +67,13 @@ Beim Beispiel von 4 + 3 kommt der Wert 7 --> funktioniert
 
 ### Addition mit Übertrag
 
-Bei der Addition mit Übertrag entsteht ein Wert der zu groß für die Darstellung in 4 Bit ist, z.B: 15 + 1 
+Bei der Addition mit Übertrag entsteht ein Wert der zu groß für die Darstellung in 4 Bit ist, z.B: 7 + 3
 
-Hier sollten dann alle Lampen q ausgehen  
+Für den Test müsste also zuerst eine 7 in unseren Speicher geladen werden. Anschließend laden wir dann eine 3 hinein. Die ALU kommt nun auf ein Ergebnis von 10. Da die Darstellung im Zweierkomplement erfolgt kann er maximal eine positive 7 normal darstellen. 
+Hier sollten dann das Carry Bit für den Übertrag und 1 normales Bit für den Wert 2 gesetzt werden, sodass man insgesamt eine 10 erhält.
 
 ### Subtraktion
 
+Bei der Subtraktion gibt es wie bereits genannt die Besonderheit, dass die ALU nicht 7-3 sondern -3+7. Dabei wird dann ein Carry Bit erstellt. 
 
-
-
+Um diese Subtraktion durchzuführen laden wir zunächst wieder eine 7 in unseren Speicher. Anschließend geben wir eine 3 ein, stellen SUB im Steuerwerk auf 1. Die ALU berechnet jetzt also den Wert von -3+7. Wir müssten nun das Negativ Bit und das Carry Bit anbekommen. Zusätzlich auch noch das dritte und vierte Bit des Schieberegisters
