@@ -1,10 +1,10 @@
-## Dokumentation Board 1
+# Dokumentation Board 1
 
 von: Luca Pinnekamp, Carolin Steger
 
-### Aufbau
+## Aufbau
 
-#### CircutVerse
+### CircutVerse
 https://circuitverse.cs.hm.edu/users/234/projects/praktikum-4-b57bb048-e05d-476c-903f-f31e026de357 
 
 https://circuitverse.cs.hm.edu/users/283/projects/praktikum-5-a3f33a6e-06d3-4b71-b812-1ffe298df51c 
@@ -22,7 +22,7 @@ Bei dem Instruktionsdecoder haben wir die UND-Gatter A1 - A8 aus dem Schaltplan 
 
 ![](Instruktionsdecoder.png)
 
-### Test
+## Test
 
 Zum Testen haben wir einmal alle Befehle getestet, ob dort die richtigen Werte raus kommen. Dazu haben wir die Bitmuster manuell in das Instruktionsregister geladen. Die folgende Wahrheittabelle zeigt die Eingabewerte und die Ausgaben, die dabei entstehen sollen:
 
