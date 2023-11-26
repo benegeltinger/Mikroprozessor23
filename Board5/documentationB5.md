@@ -1,4 +1,5 @@
-Dokumentation des Digiboard 5 (Daten-RAM und Instruktionsspeicher):
+## Dokumentation des Digiboard 5 (Daten-RAM und Instruktionsspeicher):
+von: Jan Skarbecki, Benedikt Geltinger
 
 ## Multiplexer für die zu schreibende Adresse:
 
