@@ -56,3 +56,6 @@ Wie bei dem Daten-RAM können über die Ausgänge D1 bis D3 die Instruktionen in
 
 ## Gesamtaufbau des Digibord 5:
 ![](Bord5.png)
+
+## Testen der Funktionalität
+Um die Funktionalität des Boards zu testen, sind wir immer Schritt für Schritt vorgegangen. Zunächst bauten wir den Multiplexer auf und testeten diesen, um spätere Fehler zu minimieren. Hier ist uns sofort ein Fehler untergekommen, da der Hex-Zähler unten links auf dem Board bei mehr als zwei eingesteckten Kabel auf unserem Board falsche Werte ausgegeben hat. Nachdem wir diesen Bug gefixt haben, konnten wir mit der implementierung fortfahren und haben somit schwerwiegende Folgefehler ausgeschlossen. Anschließend haben wir das gesamte Board zusammengesteckt und es sind keine weiteren Fehler aufgetreten. Als das Board fertig gesteckt war, haben wir es wie folgt getestet: Wir haben jede Speicherstelle seperat beschrieben und das durchschalten der Steuersignale sowie Programmiersignale getestet und dessen Funktionalität bestätigt. Als wir jede Speicherstelle beschrieben haben, haben wir die Daten gelesen auf jeder Speicherstelle und notiert, ob die korrekten Werte ausgegeben werden. Als das einwandfrei funktioniert hat, schalteten wir Board 4 dazu, um die Speicherstellen effektiver anzusprechen.
