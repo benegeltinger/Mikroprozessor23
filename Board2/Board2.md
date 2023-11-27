@@ -90,3 +90,7 @@ Für das Testen des Steuerwerks wurde die folgende Wahrheitstabelle erstellt. Hi
 | 1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 1   | 0   | 0   | 0   | 1   | 0   | 0   | 0   | 0   | 0    | 1   | 0   | 0   | 1   | 0   | 1   |
 | 1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0    | 1   | 1   | 0   | 1   | 0   | 1   |
 | 1   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 1   | 0   | 0   | 0   | 1   | 0   | 0   | 0   | 0    | 1   | 0   | 0   | 1   | 0   | 1   |
+
+## Verbesserung
+
+Um einen Fehler von zufälligen Sprüngen im Programm Counter zu beheben, wurde das negative Clock-Signal nochmals durch ein Gatter geleitet.
