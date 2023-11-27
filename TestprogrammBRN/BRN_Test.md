@@ -1,0 +1,3 @@
+### Testprogramm für BRN
+
+Der BRN springt im Programmzähler um 3 Adressen weiter, wenn das Negativ Bit gesetzt ist. Wir laden zuerst eine 0, dann subtrahieren wir eine 2 und laden es in die Speicherzelle 8. Der Wert dieser beträgt nun -2. Wir führen einen BRN aus. Dieser springt um 3 Adressen im Instruktionsregister, wenn das Negativ Bit gesetzt ist. Da es gesetzt ist springt er um 3 weiter zu Adresse 6. In dieser Adresse wird eine 3 addiert. Das Ergebnis dieser Rechnung laden wir dann in die Zelle 8. Hier kommt eine 1 raus
